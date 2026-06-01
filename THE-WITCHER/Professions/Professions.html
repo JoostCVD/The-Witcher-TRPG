@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Расы</title>
+    <link rel="icon" href="images-index/icon.png" type="image/png">
+    <link rel="stylesheet" href="Professions-style.css">
+    <script src="Professions-js.js" defer></script>
+</head>
+
+<body>
+
+    <!--ПОЛУПРОЗРАЧНАЯ ПОДЛОЖКА-->
+    <div class="glass-panel">
+        <div class="rect-grid">
+            <div class="rect-card" data-modal="modal1">
+                <div class="rect-number">Бард</div>
+                <div class="rect-label">Сударыня, я-поэт.</div>
+            </div>
+            <div class="rect-card" data-modal="modal2">
+                <div class="rect-number">Ведьмак</div>
+                <div class="rect-label">Истенные профессионалы</div>
+            </div>
+            <div class="rect-card" data-modal="modal3" style="padding: 35px 8px;">
+                <div class="rect-number" style="font-size: 1.65rem; word-break: break-word;">Воин</div>
+                <div class="rect-label">Лучшие Солдаты</div>
+            </div>
+            <div class="rect-card" data-modal="modal4">
+                <div class="rect-number">Жрец</div>
+                <div class="rect-label">Глубокая Вера</div>
+            </div>
+            <div class="rect-card" data-modal="modal5">
+                <div class="rect-number">Маг</div>
+                <div class="rect-label">Магия-это хаос</div>
+            </div>
+        </div>
+    </div>
+    <!--окно №1-->
+    <div id="modal1" class="modal-overlay">
+        <div class="modal-white-card">
+            <div class="modal-header">Бард</div>
+            <div class="modal-content-text">
+                <table style="width: 100%; border-collapse: collapse;">
+                    <tr>
+                        <td style="padding: 6px 0;"><strong>Определяющий навык:</strong></td>
+                        <td>Уличное выступление</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 6px 0;"><strong>Энергия:</strong></td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 6px 0;"><strong>Магические способности:</strong></td>
+                        <td>Нет</td>
+                    </tr>
+                </table>
+                <p><strong>Навыки</strong></p>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Харизма</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Обман</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Выступление</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Язык(один на
+                        выбор)</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Понимание людей</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Убеждение</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Ориентирование в
+                        городе</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Искусство</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Соблазнение</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Этикет</span>
+                </div>
+                <p><strong>Снаряжение(выберите 5)</strong></p>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Доска для покера на
+                        костях</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Колода для гвинта</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Ручное зеркальце</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Музыкальный
+                        инструмент</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Фляга с выпивкой</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Кинжал</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Духи/одеколон</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Поясная сумка</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Набедренные ножны</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Дневник с замком</span>
+                </div>
+                <p><strong>Уличное выступление(Эмп)</strong><br>
+                    Бард весьма полезен в группе, особенно когда у вас не хватает денег. Бард может потратить час
+                    времени и совершить проверку Уличного выступления в центре ближайшего города. Результат броска — это
+                    сумма, которую бард заработал за время уличного выступления. Критический провал может снизить
+                    результат броска. Отрицательный результат означает, что бард не только не заработал денег, но и был
+                    освистан местными, что даёт ему штраф -2 к Харизме при контакте со всеми в этом городе на остаток
+                    дня.</p>
+            </div>
+            <button class="modal-close-btn" data-close="modal1">✕ Закрыть</button>
+        </div>
+    </div>
+
+    <!--окно №2-->
+    <div id="modal2" class="modal-overlay">
+        <div class="modal-white-card">
+            <div class="modal-header">Ведьмаки</div>
+            <div class="modal-content-text">
+                <table style="width: 100%; border-collapse: collapse;">
+                    <tr>
+                        <td style="padding: 6px 0;"><strong>Определяющий навык:</strong></td>
+                        <td>Подготовка ведьмака</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 6px 0;"><strong>Энергия:</strong></td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 6px 0;"><strong>Магические способности:</strong></td>
+                        <td>Все базовые знаки</td>
+                    </tr>
+                </table>
+                <p><strong>Навыки</strong></p>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Внимание</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Дедукция</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Сотворение
+                        заклинаний</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Алхимия</span>
+                    <span
+                        style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Уклонение/Изворотливость</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Выживание в дикой
+                        природе</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Владение мечом</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Атлетика</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Скрытность</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Верховая езда</span>
+                </div>
+                <p><strong>Снаряжение(выберите 2)</strong></p>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Инструменты
+                        алхимика</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Лошадь</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Метательные ножи
+                        х5</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Ручной арбалет</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Двуслойный
+                        гамбезон</span>
+                </div>
+                <p><strong>Особое cнаряжение</strong></p>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Ведьмачий медальон</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Стальной ведьмачий
+                        меч</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Серебряный ведьмачий
+                        меч</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Формула эликсира
+                        х2</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Формула масла х2</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Формула отвара</span>
+                </div>
+                <p><strong>Подготовка ведьмака (Инт)</strong><br>
+                    Большинство ведьмаков проводят детство и юность в крепости, корпя над пыльными томами и проходя
+                    чудовищные боевые тренировки. Многие говорят, что главное оружие ведьмака — это знания о чудовищах и
+                    умение найти выход из любой ситуации. Находясь в опасной среде или на пересечённой местности,
+                    ведьмак может снизить соответствующие штрафы на половину значения своего навыка Подготовка ведьмака
+                    (минимум 1). Подготовку ведьмака также можно использовать в любой ситуации, где понадобился бы навык
+                    Монстрология.</p>
+            </div>
+            <button class="modal-close-btn" data-close="modal2">✕ Закрыть</button>
+        </div>
+    </div>
+
+    <div id="modal3" class="modal-overlay">
+        <div class="modal-white-card">
+            <div class="modal-header">Воин</div>
+            <div class="modal-content-text">
+                <table style="width: 100%; border-collapse: collapse;">
+                    <tr>
+                        <td style="padding: 6px 0;"><strong>Определяющий навык:</strong></td>
+                        <td>Крепче стали</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 6px 0;"><strong>Энергия:</strong></td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 6px 0;"><strong>Магические способности:</strong></td>
+                        <td>Нет</td>
+                    </tr>
+                </table>
+                <p><strong>Навыки</strong></p>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Любые 5 боевых
+                        навыков</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Выживание в дикой
+                        природе</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Храбрость</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Сила</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Запугивание</span>
+                    <span
+                        style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Уклонение/Изворотливость</span>
+                </div>
+                <p><strong>Снаряжение(выберите 5)</strong></p>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Корд</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Копьё</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Боевой топор</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Метательные ножи
+                        х5</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Наплечная сумка</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Кольчужный капюшон</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Бриганти</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Усиленные штаны</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Арбалет и арбалетные
+                        болты х20</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Стальной баклер</span>
+                </div>
+                <p><strong>Крепче стали (Тел)</strong><br>
+                    Настоящие воины — будь то темерские «Синие полоски» или нильфгаардцы из бригады «Импера» — никогда
+                    не сдаются. Когда ПЗ воина
+                    опускается до 0 или ниже, он может
+                    совершить проверку навыка Крепче
+                    стали со сложностью (СЛ), равной
+                    количеству отрицательных ПЗ х 2,
+                    чтобы продолжить сражаться. При
+                    провале воин оказывается при смерти. При успехе он может продолжать
+                    сражение, как если бы его ПЗ были
+                    ниже порога ранения. Получив урон,
+                    он вновь должен совершить проверку со СЛ, зависящей от его ПЗ.</p>
+            </div>
+            <button class="modal-close-btn" data-close="modal3">✕ Закрыть</button>
+        </div>
+    </div>
+
+    <div id="modal4" class="modal-overlay">
+        <div class="modal-white-card">
+            <div class="modal-header">Жрец</div>
+            <div class="modal-content-text">
+                <table style="width: 100%; border-collapse: collapse;">
+                    <tr>
+                        <td style="padding: 6px 0;"><strong>Определяющий навык:</strong></td>
+                        <td>Посвящённый</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 6px 0;"><strong>Энергия:</strong></td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 6px 0;"><strong>Магические способности:</strong></td>
+                        <td>2 инвокации новичка, ритуала новичка, порчи с низкой опасностью</td>
+                    </tr>
+                </table>
+                <p><strong>Навыки</strong></p>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Любые 5 боевых
+                        навыков</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Проведение
+                        ритуалов</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Лидерство</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Храбрость</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Понимание людей</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Наведение порчи</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Первая помощь</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Харизма</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Выживание в дикой
+                        природе</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Передача знаний</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Сотворение
+                        заклинаний</span>
+                </div>
+                <p><strong>Снаряжение(выберите 5)</strong></p>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Священный символ</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Обеззараживающаяжидкость
+                        х5</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Инструменты
+                        алхимика</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Хирургические
+                        инструменты</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Песочные часы
+                        (час)</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Кинжал</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Посох</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Кровосвёртывающий порошок
+                        х5</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Обезболивающие травы
+                        х5</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Ингредиенты общей
+                        стоимостью 100 крон</span>
+                </div>
+                <p><strong>Посвящённый (Эми)</strong><br>
+                    В большинстве церквей мира рады
+                    посетителям. Служители храмов помогают местным жителям и с радостью принимают новообращённых
+                    в свою веру. Жрец может совершить
+                    проверку навыка Посвящённый (СЛ
+                    определяет ведущий) в храме своей
+                    религии, чтобы получить бесплатный кров, исцеление и прочие услуги
+                    на усмотрение ведущего. Навык Посвящённый также можно использовать при общении с единоверцами,
+                    но получите вы куда меньше, чем
+                    в церкви. Посвящённый не действует при общении с теми, кто исповедует другую веру.</p>
+            </div>
+            <button class="modal-close-btn" data-close="modal4">✕ Закрыть</button>
+        </div>
+    </div>
+
+    <div id="modal5" class="modal-overlay">
+        <div class="modal-white-card">
+            <div class="modal-header">Маг</div>
+            <div class="modal-content-text">
+                <table style="width: 100%; border-collapse: collapse;">
+                    <tr>
+                        <td style="padding: 6px 0;"><strong>Определяющий навык:</strong></td>
+                        <td>Магические познания</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 6px 0;"><strong>Энергия:</strong></td>
+                        <td>5</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 6px 0;"><strong>Магические способности:</strong></td>
+                        <td>5 заклинаний новичка, 1 ритуал новичка и порчи с низкой опасностью</td>
+                    </tr>
+                </table>
+                <p><strong>Навыки</strong></p>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Понимание людей</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Сотворение
+                        заклинаний</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Наведение порчи</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Сопротивление
+                        магии</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Владение древковым
+                        оружием</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Образование
+                    </span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Проведение
+                        ритуалов
+                    </span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Этикет</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Соблазнение</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Внешний вид</span>
+                </div>
+                <p><strong>Снаряжение(выберите 5)</strong></p>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Песочные часы
+                        (час)</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Набор для макияжа</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Поясная сумка</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Письменные
+                        принадлежности</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Ручное зеркальце</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Кинжал</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Посох</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Набедренные ножны</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Дневник</span>
+                    <span style="background: #e2e8f0; padding: 4px 12px; border-radius: 20px;">Ингредиенты общей
+                        стоимостью 100 крон</span>
+                </div>
+                <p><strong>Магические познания
+                        (Инт)
+                    </strong><br>
+                    Для того чтобы стать полноправным
+                    магом, способный к магии адепт должен пройти обучение в одной из магическихакадемий. Магможет
+                    совершить
+                    проверку Магических познаний, если
+                    ему попадётся магический феномен,
+                    если он увидит незнакомое заклинание
+                    или захочет узнать ответ на какой-то
+                    теоретический вопрос. СЛ проверки
+                    определяется ведущим. При успехе маг
+                    узнаёт всё, что касается данного магического феномена. Проверка Магических познаний также может
+                    заменить
+                    проверку Внимания для обнаружения
+                    использованной магии и духов</p>
+            </div>
+            <button class="modal-close-btn" data-close="modal5">✕ Закрыть</button>
+        </div>
+    </div>
+    
+    <!--Меню бургер-->
+    <div class="menu-toggle" id="menuToggle">
+        <div class="hamburger">
+            <span></span><span></span><span></span>
+        </div>
+    </div>
+
+    <nav class="slide-menu" id="slideMenu">
+        <div class="menu-header">
+            <span class="menu-title">Навигация</span>
+            <button class="close-menu" id="closeMenu">&times;</button>
+        </div>
+        <ul class="menu-list">
+            <li><a href="../index/index.html">Главная</a></li>
+            <li class="has-submenu">
+                <div class="menu-item">
+                    <span>Основы НРИ</span>
+                    <span class="submenu-arrow">▼</span>
+                </div>
+                <ul class="submenu">
+                    <li><a href=>Что такое НРИ?</a></li>
+                    <li><a href=>Базовые понятия</a></li>
+                    <li><a href=>Дисклеймер</a></li>
+                </ul>
+            </li>
+            <li class="has-submenu">
+                <div class="menu-item">
+                    <span>Правила</span>
+                    <span class="submenu-arrow">▼</span>
+                </div>
+                <ul class="submenu">
+                    <li><a href=>Броски</a></li>
+                    <li><a href=>Бой и ранения</a></li>
+                    <li><a href=>Алхимия и крафт</a></li>
+                </ul>
+            </li>
+            <li class="has-submenu">
+                <div class="menu-item">
+                    <span>Создание персонажа</span>
+                    <span class="submenu-arrow">▼</span>
+                </div>
+                <ul class="submenu">
+                    <li><a href=>Как создать персонажа?</a></li>
+                    <li><a href='../races/races.html'> Расы</a></li>
+                    <li><a href='#'>Професии</a></li>
+                    <li><a href=>Развитие</a></li>
+                </ul>
+            </li>
+            <li><a href="contact.html">Лист Персонажа</a></li>
+            <li><a href="contact.html">Снаряжение</a></li>
+            <li><a href="contact.html">Заклинания</a></li>
+            <li><a href="contact.html">Мир и лор</a></li>
+        </ul>
+    </nav>
+
+    <div class="menu-overlay" id="menuOverlay"></div>
+    </main>
+</body>
+
+</html>

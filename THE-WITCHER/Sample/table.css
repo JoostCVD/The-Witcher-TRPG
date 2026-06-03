@@ -1,0 +1,91 @@
+  .table-container {
+      max-width: 1300px;
+      width: 100%;
+      background: rgb(255, 189, 90);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      border-radius: 4px;
+      overflow-x: auto;
+  }
+
+  .word-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 1rem;
+      font-family: 'Segoe UI', 'Roboto', 'Calibri', sans-serif;
+      background: #ffb347;
+      table-layout: fixed;
+  }
+
+  .word-table th,
+  .word-table td {
+      border: 1px solid #000000;
+      padding: 1rem 1.2rem;
+      vertical-align: top;
+      text-align: left;
+  }
+
+  .word-table th {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #000000;
+      letter-spacing: 0.3px;
+      border-bottom-width: 2px;
+      border-bottom-color: #000000;
+  }
+
+  .action-title {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #000000;
+      display: block;
+      margin-bottom: 0.35rem;
+      font-family: inherit;
+  }
+
+  .action-desc {
+      font-size: 0.9rem;
+      line-height: 1.45;
+      color: #000000;
+      margin: 0;
+  }
+
+  .empty-placeholder {
+      opacity: 0.3;
+      font-style: italic;
+      font-size: 0.85rem;
+      color: #ffffff;
+  }
+
+  @media (max-width: 750px) {
+
+      .word-table th,
+      .word-table td {
+          padding: 0.9rem;
+      }
+
+      .action-title {
+          font-size: 1rem;
+      }
+
+      .action-desc {
+          font-size: 0.85rem;
+      }
+  }
+
+  .word-table th:first-child,
+  .word-table td:first-child {
+      width: 48%;
+  }
+
+  .word-table th:last-child,
+  .word-table td:last-child {
+      width: 52%;
+  }
+
+  .word-table tbody tr:nth-child(odd) td {
+      background-color: #ffc778;
+  }
+
+  .word-table tbody tr:nth-child(even) td {
+      background-color: #ffffff;
+  }

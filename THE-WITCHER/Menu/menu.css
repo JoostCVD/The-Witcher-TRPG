@@ -1,7 +1,7 @@
 /* ===== ГАМБУРГЕР-МЕНЮ ===== */
 /* Кнопка-гамбургер */
 .menu-toggle {
-  position: absolute;
+  position: fixed;
   top: 25px;
   left: 25px;
   z-index: 110;
@@ -47,7 +47,7 @@
 
 /* Стили выезжающего меню */
 .slide-menu {
-  position: absolute; 
+  position: fixed; 
   top: 0;
   left: -300px;
   width: 280px;

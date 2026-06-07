@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ведьмак — Лист Персонажа</title>
+    <link rel="icon" href="images-index/icon.png" type="image/png">
+    <link rel="stylesheet" href="list.css">
+    <link rel="stylesheet" href="../Menu/menu.css">
+    <script src="list.js" defer></script>
+    <script src="../Menu/menu.js" defer></script>
+
+</head>
+
+<body>
+    <div style="max-width:960px;margin:0 auto;">
+
+        <div class="top-bar">
+            <div>
+                <div class="main-title">ВЕДЬМАК</div>
+                <div class="sub-title">Настольная Ролевая Игра — Лист Персонажа</div>
+            </div>
+            <button class="theme-toggle" id="theme-btn" onclick="toggleTheme()">
+                <span id="theme-icon">🌙</span><span id="theme-label">Тёмная тема</span>
+            </button>
+        </div>
+
+        <div class="points-bar">
+            <span class="points-label">⚙ Очки Параметров:</span>
+            <input class="points-input" id="stat-points" type="number" value="0"
+                oninput="updatePointsColor('stat-points')">
+            <span class="points-hint">−1 за каждое повышение характеристики</span>
+            <span style="color:var(--parchment-border);font-size:14px;">│</span>
+            <span class="points-label">✦ Очки Навыков:</span>
+            <input class="points-input" id="skill-points" type="number" value="0"
+                oninput="updatePointsColor('skill-points')">
+            <span class="points-hint">−1 за навык, −2 за навык с пометкой (2)</span>
+            <span style="color:var(--parchment-border);font-size:14px;">│</span>
+            <button class="add-btn" onclick="saveJSON()" style="padding:4px 10px;">💾 Сохранить JSON</button>
+            <label class="add-btn" style="padding:4px 10px;cursor:pointer;">📂 Загрузить JSON<input type="file"
+                    accept=".json" onchange="loadJSON(event)" style="display:none;"></label>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showPage(0)">I. Персонаж</button>
+            <button class="tab-btn" onclick="showPage(1)">II. Биография</button>
+            <button class="tab-btn" onclick="showPage(2)">III. Снаряжение</button>
+            <button class="tab-btn" onclick="showPage(3)">IV. Ранения</button>
+            <button class="tab-btn" onclick="showPage(4)">V. Магия</button>
+            <button class="tab-btn" onclick="showPage(5)">VI. Ремесло</button>
+        </div>
+
+        <div class="sheet-page active">
+            <div class="page-title">Основные Характеристики и Навыки</div>
+            <div class="grid-3" style="margin-bottom:10px;">
+                <div>
+                    <div class="field-row"><span class="field-label">Игрок:</span><input class="field-value"
+                            type="text"></div>
+                    <div class="field-row"><span class="field-label">Имя персонажа:</span><input class="field-value"
+                            type="text"></div>
+                </div>
+                <div>
+                    <div class="field-row"><span class="field-label">Раса:</span><input class="field-value" type="text">
+                    </div>
+                    <div class="field-row"><span class="field-label">Профессия:</span><input class="field-value"
+                            type="text"></div>
+                </div>
+                <div>
+                    <div class="field-row"><span class="field-label">Пол:</span><input class="field-value" type="text">
+                    </div>
+                    <div class="field-row"><span class="field-label">Возраст:</span><input class="field-value"
+                            type="text"></div>
+                </div>
+            </div>
+
+            <div class="grid-2" style="gap:14px;">
+                <div>
+                    <div class="section-header">Основные Характеристики <span
+                            style="font-family:'EB Garamond';font-style:italic;font-size:7.5px;font-weight:400;letter-spacing:0;text-transform:none;color:var(--gold);">макс.
+                            10</span></div>
+                    <table>
+                        <tr>
+                            <th>Характеристика</th>
+                            <th>Значение</th>
+                            <th style="background:var(--derived-bg);">Производное</th>
+                        </tr>
+                        <tr>
+                            <td><b>Интеллект</b></td>
+                            <td><input type="number" min="1" max="10" id="s-INT" data-prev="0"
+                                    oninput="onStatInput(this)"
+                                    style="width:100%;text-align:center;background:transparent;border:none;outline:none;font-family:'Cinzel',serif;font-size:12px;font-weight:700;color:var(--input-color);">
+                            </td>
+                            <td class="derived-cell"></td>
+                        </tr>
+                        <tr>
+                            <td><b>Рефлексы</b></td>
+                            <td><input type="number" min="1" max="10" id="s-REA" data-prev="0"
+                                    oninput="onStatInput(this)"
+                                    style="width:100%;text-align:center;background:transparent;border:none;outline:none;font-family:'Cinzel',serif;font-size:12px;font-weight:700;color:var(--input-color);">
+                            </td>
+                            <td class="derived-cell"></td>
+                        </tr>
+                        <tr>
+                            <td><b>Ловкость</b></td>
+                            <td><input type="number" min="1" max="10" id="s-DEX" data-prev="0"
+                                    oninput="onStatInput(this)"
+                                    style="width:100%;text-align:center;background:transparent;border:none;outline:none;font-family:'Cinzel',serif;font-size:12px;font-weight:700;color:var(--input-color);">
+                            </td>
+                            <td class="derived-cell"></td>
+                        </tr>
+                        <tr>
+                            <td><b>Тело</b></td>
+                            <td><input type="number" min="1" max="10" id="s-BODY" data-prev="0"
+                                    oninput="onStatInput(this)"
+                                    style="width:100%;text-align:center;background:transparent;border:none;outline:none;font-family:'Cinzel',serif;font-size:12px;font-weight:700;color:var(--input-color);">
+                            </td>
+                            <td class="derived-cell"><span id="d-BODY-punch"
+                                    style="font-family:'Cinzel',serif;font-size:8px;font-weight:700;color:var(--gold);"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>Скорость</b></td>
+                            <td><input type="number" min="1" max="10" id="s-SPD" data-prev="0"
+                                    oninput="onStatInput(this)"
+                                    style="width:100%;text-align:center;background:transparent;border:none;outline:none;font-family:'Cinzel',serif;font-size:12px;font-weight:700;color:var(--input-color);">
+                            </td>
+                            <td class="derived-cell"><span style="font-size:8px;color:var(--ink-light);">Бег:</span>
+                                <span id="d-run" class="derived-val"></span> <span
+                                    style="font-size:8px;color:var(--ink-light);">Пр.:</span> <span id="d-jump"
+                                    class="derived-val"></span></td>
+                        </tr>
+                        <tr>
+                            <td><b>Эмпатия</b></td>
+                            <td><input type="number" min="1" max="10" id="s-EMP" data-prev="0"
+                                    oninput="onStatInput(this)"
+                                    style="width:100%;text-align:center;background:transparent;border:none;outline:none;font-family:'Cinzel',serif;font-size:12px;font-weight:700;color:var(--input-color);">
+                            </td>
+                            <td class="derived-cell"></td>
+                        </tr>
+                        <tr>
+                            <td><b>Ремесло</b></td>
+                            <td><input type="number" min="1" max="10" id="s-CRF" data-prev="0"
+                                    oninput="onStatInput(this)"
+                                    style="width:100%;text-align:center;background:transparent;border:none;outline:none;font-family:'Cinzel',serif;font-size:12px;font-weight:700;color:var(--input-color);">
+                            </td>
+                            <td class="derived-cell"></td>
+                        </tr>
+                        <tr>
+                            <td><b>Воля</b></td>
+                            <td><input type="number" min="1" max="10" id="s-WILL" data-prev="0"
+                                    oninput="onStatInput(this)"
+                                    style="width:100%;text-align:center;background:transparent;border:none;outline:none;font-family:'Cinzel',serif;font-size:12px;font-weight:700;color:var(--input-color);">
+                            </td>
+                            <td class="derived-cell"></td>
+                        </tr>
+                        <tr>
+                            <td><b>Удача</b></td>
+                            <td><input type="number" min="1" max="10" id="s-LUCK" data-prev="0"
+                                    oninput="onStatInput(this)"
+                                    style="width:100%;text-align:center;background:transparent;border:none;outline:none;font-family:'Cinzel',serif;font-size:12px;font-weight:700;color:var(--input-color);">
+                            </td>
+                            <td class="derived-cell"></td>
+                        </tr>
+                        <tr>
+                            <td><b>Устойчивость</b> <span style="font-size:7px;color:var(--gold);">(не тратит
+                                    очки)</span></td>
+                            <td><input type="number" min="1" max="10" id="s-STAB" data-prev="0"
+                                    oninput="clampV(this,10);recalcAll()"
+                                    style="width:100%;text-align:center;background:transparent;border:none;outline:none;font-family:'Cinzel',serif;font-size:12px;font-weight:700;color:var(--input-color);">
+                            </td>
+                            <td class="derived-cell"></td>
+                        </tr>
+                        <tr>
+                            <td><b>Решительность</b> <span style="font-size:7px;color:var(--gold);">(не тратит)</span>
+                            </td>
+                            <td><input type="number" min="1" max="10" id="s-DET" data-prev="0"
+                                    oninput="clampV(this,10);recalcAll()"
+                                    style="width:100%;text-align:center;background:transparent;border:none;outline:none;font-family:'Cinzel',serif;font-size:12px;font-weight:700;color:var(--input-color);">
+                            </td>
+                            <td class="derived-cell"></td>
+                        </tr>
+                    </table>
+
+                    <div
+                        style="border:1px solid var(--gold);background:var(--derived-bg);padding:8px;margin-bottom:8px;">
+                        <div
+                            style="font-family:'Cinzel',serif;font-size:8px;font-weight:700;color:var(--gold);margin-bottom:6px;text-transform:uppercase;letter-spacing:.1em;">
+                            Производные Характеристики <span
+                                style="font-weight:400;font-style:italic;font-family:'EB Garamond',serif;text-transform:none;">(считаются
+                                автоматически)</span></div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-bottom:5px;">
+                            <div
+                                style="border:1px solid var(--line);padding:4px;text-align:center;background:var(--stat-bg);">
+                                <div
+                                    style="font-family:'Cinzel',serif;font-size:6.5px;font-weight:700;color:var(--red);">
+                                    ПЗ (ПУНКТЫ ЗДОРОВЬЯ)</div>
+                                <div id="d-hp"
+                                    style="font-family:'Cinzel',serif;font-size:18px;font-weight:700;color:var(--gold);">
+                                    —</div>
+                                <div style="font-size:7px;color:var(--ink-light);">(Тело+Воля)/2</div>
+                            </div>
+                            <div
+                                style="border:1px solid var(--line);padding:4px;text-align:center;background:var(--stat-bg);">
+                                <div
+                                    style="font-family:'Cinzel',serif;font-size:6.5px;font-weight:700;color:var(--red);">
+                                    ВЫНОСЛИВОСТЬ</div>
+                                <div id="d-stam"
+                                    style="font-family:'Cinzel',serif;font-size:18px;font-weight:700;color:var(--gold);">
+                                    —</div>
+                                <div style="font-size:7px;color:var(--ink-light);">(Тело+Воля)/2</div>
+                            </div>
+                            <div
+                                style="border:1px solid var(--line);padding:4px;text-align:center;background:var(--stat-bg);">
+                                <div
+                                    style="font-family:'Cinzel',serif;font-size:6.5px;font-weight:700;color:var(--red);">
+                                    ОТДЫХ</div>
+                                <div id="d-rest"
+                                    style="font-family:'Cinzel',serif;font-size:18px;font-weight:700;color:var(--gold);">
+                                    —</div>
+                                <div style="font-size:7px;color:var(--ink-light);">(Тело+Воля)/2 ÷ 2</div>
+                            </div>
+                        </div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:5px;margin-bottom:5px;">
+                            <div
+                                style="border:1px solid var(--line);padding:4px;text-align:center;background:var(--stat-bg);">
+                                <div
+                                    style="font-family:'Cinzel',serif;font-size:6.5px;font-weight:700;color:var(--red);">
+                                    БЕГ</div>
+                                <div id="d-run2"
+                                    style="font-family:'Cinzel',serif;font-size:16px;font-weight:700;color:var(--gold);">
+                                    —</div>
+                                <div style="font-size:7px;color:var(--ink-light);">Скор × 3</div>
+                            </div>
+                            <div
+                                style="border:1px solid var(--line);padding:4px;text-align:center;background:var(--stat-bg);">
+                                <div
+                                    style="font-family:'Cinzel',serif;font-size:6.5px;font-weight:700;color:var(--red);">
+                                    ПРЫЖОК</div>
+                                <div id="d-jump2"
+                                    style="font-family:'Cinzel',serif;font-size:16px;font-weight:700;color:var(--gold);">
+                                    —</div>
+                                <div style="font-size:7px;color:var(--ink-light);">Бег ÷ 5</div>
+                            </div>
+                            <div
+                                style="border:1px solid var(--line);padding:4px;text-align:center;background:var(--stat-bg);">
+                                <div
+                                    style="font-family:'Cinzel',serif;font-size:6.5px;font-weight:700;color:var(--red);">
+                                    НАГРУЗКА</div>
+                                <div id="d-carry"
+                                    style="font-family:'Cinzel',serif;font-size:16px;font-weight:700;color:var(--gold);">
+                                    —</div>
+                                <div style="font-size:7px;color:var(--ink-light);">(Тело+Воля)/2 × 10</div>
+                            </div>
+                            <div
+                                style="border:1px solid var(--line);padding:4px;text-align:center;background:var(--stat-bg);">
+                                <div
+                                    style="font-family:'Cinzel',serif;font-size:6.5px;font-weight:700;color:var(--red);">
+                                    ИНИЦИАТИВА</div>
+                                <div id="d-init"
+                                    style="font-family:'Cinzel',serif;font-size:16px;font-weight:700;color:var(--gold);">
+                                    —</div>
+                                <div style="font-size:7px;color:var(--ink-light);">Реф + Решит.</div>
+                            </div>
+                        </div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;">
+                            <div
+                                style="border:1px solid var(--line);padding:4px;text-align:center;background:var(--stat-bg);">
+                                <div
+                                    style="font-family:'Cinzel',serif;font-size:6.5px;font-weight:700;color:var(--red);">
+                                    УДАР РУКОЙ</div>
+                                <div id="d-punch"
+                                    style="font-family:'Cinzel',serif;font-size:15px;font-weight:700;color:var(--gold);">
+                                    —</div>
+                                <div style="font-size:7px;color:var(--ink-light);">по значению Тела</div>
+                            </div>
+                            <div
+                                style="border:1px solid var(--line);padding:4px;text-align:center;background:var(--stat-bg);">
+                                <div
+                                    style="font-family:'Cinzel',serif;font-size:6.5px;font-weight:700;color:var(--red);">
+                                    УДАР НОГОЙ</div>
+                                <div id="d-kick"
+                                    style="font-family:'Cinzel',serif;font-size:15px;font-weight:700;color:var(--gold);">
+                                    —</div>
+                                <div style="font-size:7px;color:var(--ink-light);">по значению Тела</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        style="border:1px solid var(--line);padding:4px;text-align:center;background:var(--stat-bg);margin-bottom:8px;">
+                        <div style="font-family:'Cinzel',serif;font-size:6.5px;font-weight:700;color:var(--red);">КОСТИ
+                            АДРЕНАЛИНА</div>
+                        <input type="text"
+                            style="width:100%;text-align:center;background:transparent;border:none;outline:none;font-family:'Cinzel',serif;font-size:16px;font-weight:700;color:var(--input-color);">
+                    </div>
+                    <div
+                        style="border:1px solid var(--line);padding:4px;text-align:center;background:var(--stat-bg);margin-bottom:8px;">
+                        <div style="font-family:'Cinzel',serif;font-size:6.5px;font-weight:700;color:var(--red);">ПУНКТЫ
+                            УЛУЧШЕНИЯ</div>
+                        <input type="text"
+                            style="width:100%;text-align:center;background:transparent;border:none;outline:none;font-family:'Cinzel',serif;font-size:16px;font-weight:700;color:var(--input-color);">
+                    </div>
+
+                    <div class="section-header">Профессиональные Способности <button class="add-btn"
+                            onclick="addTextEntry('prof-list')">+ Добавить</button></div>
+                    <div id="prof-list"></div>
+
+                    <div class="section-header">Черты, Бонусы и Штрафы <button class="add-btn"
+                            onclick="addTextEntry('traits-list')">+ Добавить</button></div>
+                    <div id="traits-list"></div>
+
+                    <div class="section-header">Урон по Частям Тела</div>
+                    <div class="grid-2" style="gap:5px;">
+                        <div>
+                            <div
+                                style="font-family:'Cinzel',serif;font-size:7.5px;font-weight:700;color:var(--gold);text-align:center;margin-bottom:3px;">
+                                Гуманоид</div>
+                            <table>
+                                <tr>
+                                    <th>Часть</th>
+                                    <th>Бросок</th>
+                                    <th>Штраф</th>
+                                    <th>Урон</th>
+                                </tr>
+                                <tr>
+                                    <td>Голова</td>
+                                    <td>1</td>
+                                    <td style="color:var(--red);">−6</td>
+                                    <td>×3</td>
+                                </tr>
+                                <tr>
+                                    <td>Туловище</td>
+                                    <td>2–4</td>
+                                    <td style="color:var(--red);">−1</td>
+                                    <td>×1</td>
+                                </tr>
+                                <tr>
+                                    <td>Пр. Рука</td>
+                                    <td>5</td>
+                                    <td style="color:var(--red);">−3</td>
+                                    <td>×½</td>
+                                </tr>
+                                <tr>
+                                    <td>Лв. Рука</td>
+                                    <td>6</td>
+                                    <td style="color:var(--red);">−3</td>
+                                    <td>×½</td>
+                                </tr>
+                                <tr>
+                                    <td>Пв. Нога</td>
+                                    <td>7–8</td>
+                                    <td style="color:var(--red);">−2</td>
+                                    <td>×½</td>
+                                </tr>
+                                <tr>
+                                    <td>Лв. Нога</td>
+                                    <td>9–10</td>
+                                    <td style="color:var(--red);">−2</td>
+                                    <td>×½</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div>
+                            <div
+                                style="font-family:'Cinzel',serif;font-size:7.5px;font-weight:700;color:var(--gold);text-align:center;margin-bottom:3px;">
+                                Чудовище</div>
+                            <table>
+                                <tr>
+                                    <th>Часть</th>
+                                    <th>Бросок</th>
+                                    <th>Штраф</th>
+                                    <th>Урон</th>
+                                </tr>
+                                <tr>
+                                    <td>Голова</td>
+                                    <td>1</td>
+                                    <td style="color:var(--red);">−6</td>
+                                    <td>×3</td>
+                                </tr>
+                                <tr>
+                                    <td>Туловище</td>
+                                    <td>2–5</td>
+                                    <td style="color:var(--red);">−1</td>
+                                    <td>×1</td>
+                                </tr>
+                                <tr>
+                                    <td>Пр. Конеч.</td>
+                                    <td>6–7</td>
+                                    <td style="color:var(--red);">−3</td>
+                                    <td>×½</td>
+                                </tr>
+                                <tr>
+                                    <td>Лв. Конеч.</td>
+                                    <td>8–9</td>
+                                    <td style="color:var(--red);">−3</td>
+                                    <td>×½</td>
+                                </tr>
+                                <tr>
+                                    <td>Хвост/Крыло</td>
+                                    <td>10</td>
+                                    <td style="color:var(--red);">−2</td>
+                                    <td>×½</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="section-header">Модификаторы Атаки</div>
+                    <table>
+                        <tr>
+                            <th>Условие</th>
+                            <th>Мод.</th>
+                        </tr>
+                        <tr>
+                            <td>Цель обездвижена</td>
+                            <td style="color:var(--gold);font-weight:700;">+4</td>
+                        </tr>
+                        <tr>
+                            <td>Цель активно уклоняется</td>
+                            <td style="color:var(--red);font-weight:700;">−2</td>
+                        </tr>
+                        <tr>
+                            <td>Цель движется, Реа &gt; 10</td>
+                            <td style="color:var(--red);font-weight:700;">−3</td>
+                        </tr>
+                        <tr>
+                            <td>Быстрое выхватывание</td>
+                            <td style="color:var(--red);font-weight:700;">−3</td>
+                        </tr>
+                        <tr>
+                            <td>Засада</td>
+                            <td style="color:var(--gold);font-weight:700;">+5</td>
+                        </tr>
+                        <tr>
+                            <td>Рикошет</td>
+                            <td style="color:var(--red);font-weight:700;">−5</td>
+                        </tr>
+                        <tr>
+                            <td>Ослепление светом/пылью</td>
+                            <td style="color:var(--red);font-weight:700;">−3</td>
+                        </tr>
+                        <tr>
+                            <td>Цель выделяется на фоне</td>
+                            <td style="color:var(--gold);font-weight:700;">+2</td>
+                        </tr>
+                        <tr>
+                            <td>Прицеливание</td>
+                            <td style="color:var(--gold);font-weight:700;">+1</td>
+                        </tr>
+                        <tr>
+                            <td>Второе действие за ход</td>
+                            <td style="color:var(--red);font-weight:700;">−3</td>
+                        </tr>
+                        <tr>
+                            <td>Атака (общий)</td>
+                            <td style="color:var(--red);font-weight:700;">−3</td>
+                        </tr>
+                        <tr>
+                            <td>Защита (общий)</td>
+                            <td style="color:var(--red);font-weight:700;">−1</td>
+                        </tr>
+                    </table>
+
+                    <div class="section-header">Репутация</div>
+                    <div class="grid-2" style="gap:6px;">
+                        <div style="border:1px solid var(--line);padding:5px;background:var(--stat-bg);">
+                            <div
+                                style="font-family:'Cinzel',serif;font-size:7.5px;font-weight:700;color:var(--gold);margin-bottom:3px;">
+                                Положительная</div><textarea class="notes-area" rows="2"
+                                style="min-height:30px;"></textarea>
+                        </div>
+                        <div style="border:1px solid var(--line);padding:5px;background:var(--stat-bg);">
+                            <div
+                                style="font-family:'Cinzel',serif;font-size:7.5px;font-weight:700;color:var(--red);margin-bottom:3px;">
+                                Отрицательная</div><textarea class="notes-area" rows="2"
+                                style="min-height:30px;"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="section-header">Навыки
+                        <span
+                            style="font-family:'EB Garamond';font-style:italic;font-size:7.5px;font-weight:400;letter-spacing:0;text-transform:none;color:var(--gold);">навык≤20,
+                            хар≤10 → хар+навык</span>
+                    </div>
+                    <div
+                        style="display:flex;align-items:center;gap:5px;margin-bottom:5px;font-size:8px;color:var(--ink-light);">
+                        <span>Навык</span>
+                        <div
+                            style="width:22px;height:14px;border:1px solid var(--parchment-border);background:var(--stat-box-bg);">
+                        </div>
+                        <span>+ Хар =</span>
+                        <div style="width:26px;height:14px;border:1.5px solid var(--gold);"></div>
+                        <span style="color:var(--gold);">Итог</span>
+                    </div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                        <div>
+                            <div
+                                style="font-family:'Cinzel',serif;font-size:8px;font-weight:700;color:var(--gold);border-bottom:1px solid var(--gold);margin-bottom:4px;padding-bottom:2px;">
+                                Навыки Интеллекта</div>
+                            <div class="skill-row" data-s="INT"><span class="skill-name">Внимание</span><input
+                                    class="skill-box" type="number" min="0" max="20"
+                                    oninput="clampV(this,20);recalcRow(this)"><span class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                            <div class="skill-row" data-s="INT"><span class="skill-name">Выживание в дикой
+                                    природе</span><input class="skill-box" type="number" min="0" max="20"
+                                    oninput="clampV(this,20);recalcRow(this)"><span class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                            <div class="skill-row" data-s="INT"><span class="skill-name">Дедукция</span><input
+                                    class="skill-box" type="number" min="0" max="20"
+                                    oninput="clampV(this,20);recalcRow(this)"><span class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                            <div class="skill-row" data-cost="2" data-s="INT"><span class="skill-name">Монстрология
+                                    <span style="color:var(--red)">(2)</span></span><input class="skill-box"
+                                    type="number" min="0" max="20" oninput="clampV(this,20);recalcRow(this)"><span
+                                    class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                            <div class="skill-row" data-s="INT"><span class="skill-name">Образование</span><input
+                                    class="skill-box" type="number" min="0" max="20"
+                                    oninput="clampV(this,20);recalcRow(this)"><span class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                            <div class="skill-row" data-s="INT"><span class="skill-name">Ориентирование в
+                                    городе</span><input class="skill-box" type="number" min="0" max="20"
+                                    oninput="clampV(this,20);recalcRow(this)"><span class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                            <div class="skill-row" data-s="INT"><span class="skill-name">Передача знаний</span><input
+                                    class="skill-box" type="number" min="0" max="20"
+                                    oninput="clampV(this,20);recalcRow(this)"><span class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                            <div class="skill-row" data-cost="2" data-s="INT"><span class="skill-name">Тактика <span
+                                        style="color:var(--red)">(2)</span></span><input class="skill-box" type="number"
+                                    min="0" max="20" oninput="clampV(this,20);recalcRow(this)"><span
+                                    class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                            <div class="skill-row" data-s="INT"><span class="skill-name">Торговля</span><input
+                                    class="skill-box" type="number" min="0" max="20"
+                                    oninput="clampV(this,20);recalcRow(this)"><span class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                            <div class="skill-row" data-s="INT"><span class="skill-name">Этикет</span><input
+                                    class="skill-box" type="number" min="0" max="20"
+                                    oninput="clampV(this,20);recalcRow(this)"><span class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                            <div class="skill-row" data-cost="2" data-s="INT"><span class="skill-name">Язык: Всеобщий
+                                    <span style="color:var(--red)">(2)</span></span><input class="skill-box"
+                                    type="number" min="0" max="20" oninput="clampV(this,20);recalcRow(this)"><span
+                                    class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                            <div class="skill-row" data-cost="2" data-s="INT"><span class="skill-name">Язык: Старшая
+                                    Речь <span style="color:var(--red)">(2)</span></span><input class="skill-box"
+                                    type="number" min="0" max="20" oninput="clampV(this,20);recalcRow(this)"><span
+                                    class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                            <div class="skill-row" data-cost="2" data-s="INT"><span class="skill-name">Язык: Краснолюдов
+                                    <span style="color:var(--red)">(2)</span></span><input class="skill-box"
+                                    type="number" min="0" max="20" oninput="clampV(this,20);recalcRow(this)"><span
+                                    class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                            <div
+                                style="font-family:'Cinzel',serif;font-size:8px;font-weight:700;color:var(--gold);border-bottom:1px solid var(--gold);margin:6px 0 4px;padding-bottom:2px;">
+                                Навыки Реакции</div>
+                            <div class="skill-row" data-s="REA"><span class="skill-name">Ближний бой</span><input
+                                    class="skill-box" type="number" min="0" max="20"
+                                    oninput="clampV(this,20);recalcRow(this)"><span class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                            <div class="skill-row" data-s="REA"><span class="skill-name">Борьба</span><input
+                                    class="skill-box" type="number" min="0" max="20"
+                                    oninput="clampV(this,20);recalcRow(this)"><span class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                            <div class="skill-row" data-s="REA"><span class="skill-name">Верховая езда</span><input
+                                    class="skill-box" type="number" min="0" max="20"
+                                    oninput="clampV(this,20);recalcRow(this)"><span class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                            <div class="skill-row" data-s="REA"><span class="skill-name">Вл. древковым
+                                    оружием</span><input class="skill-box" type="number" min="0" max="20"
+                                    oninput="clampV(this,20);recalcRow(this)"><span class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                            <div class="skill-row" data-s="REA"><span class="skill-name">Вл. лёгкими
+                                    клинками</span><input class="skill-box" type="number" min="0" max="20"
+                                    oninput="clampV(this,20);recalcRow(this)"><span class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                            <div class="skill-row" data-s="REA"><span class="skill-name">Владение мечом</span><input
+                                    class="skill-box" type="number" min="0" max="20"
+                                    oninput="clampV(this,20);recalcRow(this)"><span class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                            <div class="skill-row" data-s="REA"><span class="skill-name">Мореходство</span><input
+                                    class="skill-box" type="number" min="0" max="20"
+                                    oninput="clampV(this,20);recalcRow(this)"><span class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                            <div class="skill-row" data-s="REA"><span class="skill-name">Уклонение /
+                                    Изворотливость</span><input class="skill-box" type="number" min="0" max="20"
+                                    oninput="clampV(this,20);recalcRow(this)"><span class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                            <div
+                                style="font-family:'Cinzel',serif;font-size:8px;font-weight:700;color:var(--gold);border-bottom:1px solid var(--gold);margin:6px 0 4px;padding-bottom:2px;">
+                                Навыки Ловкости</div>
+                            <div class="skill-row" data-s="DEX"><span class="skill-name">Атлетика</span><input
+                                    class="skill-box" type="number" min="0" max="20"
+                                    oninput="clampV(this,20);recalcRow(this)"><span class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                            <div class="skill-row" data-s="DEX"><span class="skill-name">Ловкость рук</span><input
+                                    class="skill-box" type="number" min="0" max="20"
+                                    oninput="clampV(this,20);recalcRow(this)"><span class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                            <div class="skill-row" data-s="DEX"><span class="skill-name">Скрытность</span><input
+                                    class="skill-box" type="number" min="0" max="20"
+                                    oninput="clampV(this,20);recalcRow(this)"><span class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                            <div class="skill-row" data-s="DEX"><span class="skill-name">Стрельба из
+                                    арбалета</span><input class="skill-box" type="number" min="0" max="20"
+                                    oninput="clampV(this,20);recalcRow(this)"><span class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                            <div class="skill-row" data-s="DEX"><span class="skill-name">Стрельба из лука</span><input
+                                    class="skill-box" type="number" min="0" max="20"
+                                    oninput="clampV(this,20);recalcRow(this)"><span class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div
+                                style="font-family:'Cinzel',serif;font-size:8px;font-weight:700;color:var(--gold);border-bottom:1px solid var(--gold);margin-bottom:4px;padding-bottom:2px;">
+                                Навыки Эмпатии</div>
+                            <div class="skill-row" data-s="EMP"><span class="skill-name">Азартные игры</span><input
+                                    class="skill-box" type="number" min="0" max="20"
+                                    oninput="clampV(this,20);recalcRow(this)"><span class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                            <div class="skill-row" data-s="EMP"><span class="skill-name">Внешний вид</span><input
+                                    class="skill-box" type="number" min="0" max="20"
+                                    oninput="clampV(this,20);recalcRow(this)"><span class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                            <div class="skill-row" data-s="EMP"><span class="skill-name">Выступление</span><input
+                                    class="skill-box" type="number" min="0" max="20"
+                                    oninput="clampV(this,20);recalcRow(this)"><span class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                            <div class="skill-row" data-s="EMP"><span class="skill-name">Искусство</span><input
+                                    class="skill-box" type="number" min="0" max="20"
+                                    oninput="clampV(this,20);recalcRow(this)"><span class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                            <div class="skill-row" data-s="EMP"><span class="skill-name">Лидерство</span><input
+                                    class="skill-box" type="number" min="0" max="20"
+                                    oninput="clampV(this,20);recalcRow(this)"><span class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                            <div class="skill-row" data-s="EMP"><span class="skill-name">Обман</span><input
+                                    class="skill-box" type="number" min="0" max="20"
+                                    oninput="clampV(this,20);recalcRow(this)"><span class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                            <div class="skill-row" data-s="EMP"><span class="skill-name">Понимание людей</span><input
+                                    class="skill-box" type="number" min="0" max="20"
+                                    oninput="clampV(this,20);recalcRow(this)"><span class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                            <div class="skill-row" data-s="EMP"><span class="skill-name">Соблазнение</span><input
+                                    class="skill-box" type="number" min="0" max="20"
+                                    oninput="clampV(this,20);recalcRow(this)"><span class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                            <div class="skill-row" data-s="EMP"><span class="skill-name">Убеждение</span><input
+                                    class="skill-box" type="number" min="0" max="20"
+                                    oninput="clampV(this,20);recalcRow(this)"><span class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                            <div class="skill-row" data-s="EMP"><span class="skill-name">Харизма</span><input
+                                    class="skill-box" type="number" min="0" max="20"
+                                    oninput="clampV(this,20);recalcRow(this)"><span class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                            <div
+                                style="font-family:'Cinzel',serif;font-size:8px;font-weight:700;color:var(--gold);border-bottom:1px solid var(--gold);margin:6px 0 4px;padding-bottom:2px;">
+                                Навыки Телосложения</div>
+                            <div class="skill-row" data-s="BODY"><span class="skill-name">Сила</span><input
+                                    class="skill-box" type="number" min="0" max="20"
+                                    oninput="clampV(this,20);recalcRow(this)"><span class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                            <div class="skill-row" data-s="BODY"><span class="skill-name">Стойкость</span><input
+                                    class="skill-box" type="number" min="0" max="20"
+                                    oninput="clampV(this,20);recalcRow(this)"><span class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                            <div
+                                style="font-family:'Cinzel',serif;font-size:8px;font-weight:700;color:var(--gold);border-bottom:1px solid var(--gold);margin:6px 0 4px;padding-bottom:2px;">
+                                Навыки Воли</div>
+                            <div class="skill-row" data-s="WILL"><span class="skill-name">Запугивание</span><input
+                                    class="skill-box" type="number" min="0" max="20"
+                                    oninput="clampV(this,20);recalcRow(this)"><span class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                            <div class="skill-row" data-cost="2" data-s="WILL"><span class="skill-name">Наведение порчи
+                                    <span style="color:var(--red)">(2)</span></span><input class="skill-box"
+                                    type="number" min="0" max="20" oninput="clampV(this,20);recalcRow(this)"><span
+                                    class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                            <div class="skill-row" data-cost="2" data-s="WILL"><span class="skill-name">Проведение
+                                    ритуалов <span style="color:var(--red)">(2)</span></span><input class="skill-box"
+                                    type="number" min="0" max="20" oninput="clampV(this,20);recalcRow(this)"><span
+                                    class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                            <div class="skill-row" data-cost="2" data-s="WILL"><span class="skill-name">Сопротивление
+                                    магии <span style="color:var(--red)">(2)</span></span><input class="skill-box"
+                                    type="number" min="0" max="20" oninput="clampV(this,20);recalcRow(this)"><span
+                                    class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                            <div class="skill-row" data-s="WILL"><span class="skill-name">Сопротивление
+                                    убеждению</span><input class="skill-box" type="number" min="0" max="20"
+                                    oninput="clampV(this,20);recalcRow(this)"><span class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                            <div class="skill-row" data-cost="2" data-s="WILL"><span class="skill-name">Сотворение
+                                    заклинаний <span style="color:var(--red)">(2)</span></span><input class="skill-box"
+                                    type="number" min="0" max="20" oninput="clampV(this,20);recalcRow(this)"><span
+                                    class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                            <div class="skill-row" data-s="WILL"><span class="skill-name">Храбрость</span><input
+                                    class="skill-box" type="number" min="0" max="20"
+                                    oninput="clampV(this,20);recalcRow(this)"><span class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                            <div
+                                style="font-family:'Cinzel',serif;font-size:8px;font-weight:700;color:var(--gold);border-bottom:1px solid var(--gold);margin:6px 0 4px;padding-bottom:2px;">
+                                Навыки Ремесла</div>
+                            <div class="skill-row" data-cost="2" data-s="CRF"><span class="skill-name">Алхимия <span
+                                        style="color:var(--red)">(2)</span></span><input class="skill-box" type="number"
+                                    min="0" max="20" oninput="clampV(this,20);recalcRow(this)"><span
+                                    class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                            <div class="skill-row" data-s="CRF"><span class="skill-name">Взлом замков</span><input
+                                    class="skill-box" type="number" min="0" max="20"
+                                    oninput="clampV(this,20);recalcRow(this)"><span class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                            <div class="skill-row" data-cost="2" data-s="CRF"><span class="skill-name">Знание Ловушек
+                                    <span style="color:var(--red)">(2)</span></span><input class="skill-box"
+                                    type="number" min="0" max="20" oninput="clampV(this,20);recalcRow(this)"><span
+                                    class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                            <div class="skill-row" data-cost="2" data-s="CRF"><span class="skill-name">Изготовление
+                                    <span style="color:var(--red)">(2)</span></span><input class="skill-box"
+                                    type="number" min="0" max="20" oninput="clampV(this,20);recalcRow(this)"><span
+                                    class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                            <div class="skill-row" data-s="CRF"><span class="skill-name">Маскировка</span><input
+                                    class="skill-box" type="number" min="0" max="20"
+                                    oninput="clampV(this,20);recalcRow(this)"><span class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                            <div class="skill-row" data-s="CRF"><span class="skill-name">Первая помощь</span><input
+                                    class="skill-box" type="number" min="0" max="20"
+                                    oninput="clampV(this,20);recalcRow(this)"><span class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                            <div class="skill-row" data-s="CRF"><span class="skill-name">Подделывание</span><input
+                                    class="skill-box" type="number" min="0" max="20"
+                                    oninput="clampV(this,20);recalcRow(this)"><span class="skill-eq">=</span>
+                                <div class="skill-total">—</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-watermark">Ведьмак TRPG · Стр. I</div>
+        </div>
+
+        <div class="sheet-page">
+            <div class="page-title">Биография Персонажа</div>
+            <div class="grid-2" style="gap:16px;">
+                <div>
+                    <div class="section-header">Ваш Личный Стиль</div>
+                    <div class="field-row"><span class="field-label">Одежда:</span><input class="field-value"
+                            type="text"></div>
+                    <div class="field-row"><span class="field-label">Характер:</span><input class="field-value"
+                            type="text"></div>
+                    <div class="field-row"><span class="field-label">Причёска:</span><input class="field-value"
+                            type="text"></div>
+                    <div class="field-row"><span class="field-label">Украшения:</span><input class="field-value"
+                            type="text"></div>
+                    <div class="field-row"><span class="field-label">Кого ценит:</span><input class="field-value"
+                            type="text"></div>
+                    <div class="field-row"><span class="field-label">Что ценит:</span><input class="field-value"
+                            type="text"></div>
+                    <div style="margin-top:4px;">
+                        <div
+                            style="font-family:'Cinzel',serif;font-size:8px;font-weight:700;color:var(--red);text-transform:uppercase;margin-bottom:4px;">
+                            Отношение к окружающим</div><textarea class="notes-area" rows="3"></textarea>
+                    </div>
+                    <div class="section-header" style="margin-top:14px;">Детство</div>
+                    <textarea class="notes-area" rows="8"></textarea>
+                    <div class="section-header" style="margin-top:14px;">Репутация и Слава</div>
+                    <div style="border:1px solid var(--line);padding:8px;background:var(--stat-bg);">
+                        <div
+                            style="font-family:'EB Garamond',serif;font-size:9px;font-style:italic;color:var(--gold);margin-bottom:6px;">
+                            Слава персонажа:</div>
+                        <div id="fame-stars" style="display:flex;gap:3px;flex-wrap:wrap;margin-bottom:8px;"></div>
+                        <textarea class="notes-area" rows="3" placeholder="Легенды, слухи, прозвища..."></textarea>
+                    </div>
+                    <div class="section-header" style="margin-top:14px;">Заметки по Ходу Компании</div>
+                    <textarea class="notes-area" rows="8"></textarea>
+                </div>
+                <div>
+                    <div class="section-header">Жизненный Путь <button class="add-btn" onclick="addLifeRow()">+
+                            Событие</button></div>
+                    <table id="lp-table">
+                        <tr>
+                            <th style="width:55px;">Десятилетие</th>
+                            <th>Событие</th>
+                            <th style="width:22px;"></th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="page-watermark">Ведьмак TRPG · Стр. II</div>
+        </div>
+
+        <div class="sheet-page">
+            <div class="page-title">Снаряжение, Оружие и Деньги</div>
+            <div class="grid-2" style="gap:14px;">
+                <div>
+                    <div class="section-header">Броня</div>
+                    <table>
+                        <tr>
+                            <th>Часть тела</th>
+                            <th>Какая</th>
+                            <th>Защита</th>
+                            <th>Эффект</th>
+                            <th>СД</th>
+                        </tr>
+                        <tr>
+                            <td>Голова</td>
+                            <td><input type="text"></td>
+                            <td><input type="text"></td>
+                            <td><input type="text"></td>
+                            <td><input type="text"></td>
+                        </tr>
+                        <tr>
+                            <td>Туловище</td>
+                            <td><input type="text"></td>
+                            <td><input type="text"></td>
+                            <td><input type="text"></td>
+                            <td><input type="text"></td>
+                        </tr>
+                        <tr>
+                            <td>Пр. Рука</td>
+                            <td><input type="text"></td>
+                            <td><input type="text"></td>
+                            <td><input type="text"></td>
+                            <td><input type="text"></td>
+                        </tr>
+                        <tr>
+                            <td>Лв. Рука</td>
+                            <td><input type="text"></td>
+                            <td><input type="text"></td>
+                            <td><input type="text"></td>
+                            <td><input type="text"></td>
+                        </tr>
+                        <tr>
+                            <td>Пв. Нога</td>
+                            <td><input type="text"></td>
+                            <td><input type="text"></td>
+                            <td><input type="text"></td>
+                            <td><input type="text"></td>
+                        </tr>
+                        <tr>
+                            <td>Лв. Нога</td>
+                            <td><input type="text"></td>
+                            <td><input type="text"></td>
+                            <td><input type="text"></td>
+                            <td><input type="text"></td>
+                        </tr>
+                    </table>
+                    <div class="section-header">Щит</div>
+                    <table>
+                        <tr>
+                            <th>Область</th>
+                            <th>Надёжность</th>
+                            <th>Урон</th>
+                            <th>В руке</th>
+                        </tr>
+                        <tr>
+                            <td><input type="text"></td>
+                            <td><input type="text"></td>
+                            <td><input type="text"></td>
+                            <td><input type="text"></td>
+                        </tr>
+                    </table>
+                    <div class="section-header">Деньги</div>
+                    <div style="border:1px solid var(--line);padding:8px;margin-bottom:8px;background:var(--stat-bg);">
+                        <div
+                            style="font-family:'Cinzel',serif;font-size:8px;font-weight:700;color:var(--gold);margin-bottom:6px;">
+                            Реданская Крона — основная валюта</div>
+                        <div class="money-block"><span class="money-name">Кроны</span><input class="money-input"
+                                type="text"></div>
+                        <div class="money-block"><span class="money-name">Орены</span><input class="money-input"
+                                type="text"></div>
+                        <div class="money-block"><span class="money-name">Флорены</span><input class="money-input"
+                                type="text"></div>
+                        <div class="money-block"><span class="money-name">Дукаты</span><input class="money-input"
+                                type="text"></div>
+                        <div class="money-block"><span class="money-name">Бизанты</span><input class="money-input"
+                                type="text"></div>
+                        <div class="money-block"><span class="money-name">Линтары</span><input class="money-input"
+                                type="text"></div>
+                        <div
+                            style="margin-top:8px;font-size:8px;color:var(--ink-light);border-top:1px solid var(--line);padding-top:6px;line-height:1.8;">
+                            1 Крона = 1 Орену = 1/3 Флорена = 3 Дукатам = 1/4 Бизанта = 1/2 Линтара
+                        </div>
+                    </div>
+
+                    <div class="section-header">Снаряжение <button class="add-btn" onclick="addEquipRow()">+
+                            Добавить</button></div>
+                    <div
+                        style="display:grid;grid-template-columns:2fr 60px 1fr 50px 22px;border:1px solid var(--line);background:var(--section-bg);">
+                        <div
+                            style="font-family:'Cinzel',serif;font-size:7px;font-weight:700;color:var(--red);padding:3px 5px;border-right:1px solid var(--line);text-transform:uppercase;">
+                            Название</div>
+                        <div
+                            style="font-family:'Cinzel',serif;font-size:7px;font-weight:700;color:var(--red);padding:3px 5px;border-right:1px solid var(--line);text-transform:uppercase;text-align:center;">
+                            Кол-во</div>
+                        <div
+                            style="font-family:'Cinzel',serif;font-size:7px;font-weight:700;color:var(--red);padding:3px 5px;border-right:1px solid var(--line);text-transform:uppercase;">
+                            Примечания</div>
+                        <div
+                            style="font-family:'Cinzel',serif;font-size:7px;font-weight:700;color:var(--red);padding:3px 5px;border-right:1px solid var(--line);text-transform:uppercase;text-align:center;">
+                            Вес</div>
+                        <div></div>
+                    </div>
+                    <div id="equip-list"></div>
+
+                    <div class="section-header">Компоненты / Ингредиенты <button class="add-btn"
+                            onclick="addCompRow()">+ Добавить</button></div>
+                    <div
+                        style="display:grid;grid-template-columns:2fr 60px 50px 22px;border:1px solid var(--line);background:var(--section-bg);">
+                        <div
+                            style="font-family:'Cinzel',serif;font-size:7px;font-weight:700;color:var(--red);padding:3px 5px;border-right:1px solid var(--line);text-transform:uppercase;">
+                            Название</div>
+                        <div
+                            style="font-family:'Cinzel',serif;font-size:7px;font-weight:700;color:var(--red);padding:3px 5px;border-right:1px solid var(--line);text-transform:uppercase;text-align:center;">
+                            Кол-во</div>
+                        <div
+                            style="font-family:'Cinzel',serif;font-size:7px;font-weight:700;color:var(--red);padding:3px 5px;border-right:1px solid var(--line);text-transform:uppercase;text-align:center;">
+                            Вес</div>
+                        <div></div>
+                    </div>
+                    <div id="comp-list"></div>
+
+                    <div
+                        style="border:1px solid var(--red);padding:5px;font-size:8.5px;color:var(--red);background:var(--warn-bg);margin-top:8px;">
+                        <strong>Штраф за перевес:</strong> −1 из Рефлексов, Ловкости и Скорости за каждые 5 очков сверх
+                        переносимого веса</div>
+                    <div class="field-row" style="margin-top:6px;"><span class="field-label">Общий Вес:</span><input
+                            class="field-value" type="text" style="font-family:'Cinzel',serif;font-weight:700;"></div>
+                </div>
+                <div>
+                    <div class="section-header">Оружие <button class="add-btn" onclick="addWeapon()">+ Оружие</button>
+                    </div>
+                    <div id="weapons-list"></div>
+                </div>
+            </div>
+            <div class="page-watermark">Ведьмак TRPG · Стр. III</div>
+        </div>
+
+        <div class="sheet-page">
+            <div class="page-title">Критические Ранения</div>
+            <div class="grid-2" style="gap:14px;">
+                <div>
+                    <div class="section-header">Критические Ранения Персонажа <button class="add-btn"
+                            onclick="addInjury()">+ Добавить</button></div>
+                    <div
+                        style="display:grid;grid-template-columns:2fr 1fr 60px 22px;border:1px solid var(--line);background:var(--section-bg);">
+                        <div
+                            style="font-family:'Cinzel',serif;font-size:7px;font-weight:700;color:var(--red);padding:3px 5px;border-right:1px solid var(--line);text-transform:uppercase;">
+                            Ранение</div>
+                        <div
+                            style="font-family:'Cinzel',serif;font-size:7px;font-weight:700;color:var(--red);padding:3px 5px;border-right:1px solid var(--line);text-transform:uppercase;text-align:center;">
+                            Штрафы</div>
+                        <div
+                            style="font-family:'Cinzel',serif;font-size:7px;font-weight:700;color:var(--red);padding:3px 5px;border-right:1px solid var(--line);text-transform:uppercase;text-align:center;">
+                            Дней</div>
+                        <div></div>
+                    </div>
+                    <div id="injuries-list"></div>
+                    <div class="section-header" style="margin-top:12px;">Порог Ранения</div>
+                    <table>
+                        <tr>
+                            <th>Макс. ПЗ</th>
+                            <th>Порог</th>
+                            <th>Макс. ПЗ</th>
+                            <th>Порог</th>
+                        </tr>
+                        <tr>
+                            <td>15</td>
+                            <td>3</td>
+                            <td>45</td>
+                            <td>9</td>
+                        </tr>
+                        <tr>
+                            <td>20</td>
+                            <td>4</td>
+                            <td>50</td>
+                            <td>10</td>
+                        </tr>
+                        <tr>
+                            <td>25</td>
+                            <td>5</td>
+                            <td>55</td>
+                            <td>11</td>
+                        </tr>
+                        <tr>
+                            <td>30</td>
+                            <td>6</td>
+                            <td>60</td>
+                            <td>12</td>
+                        </tr>
+                        <tr>
+                            <td>35</td>
+                            <td>7</td>
+                            <td>65</td>
+                            <td>13</td>
+                        </tr>
+                        <tr>
+                            <td>40</td>
+                            <td>8</td>
+                            <td>70</td>
+                            <td>14</td>
+                        </tr>
+                    </table>
+                    <div style="border:2px solid var(--red);padding:8px;margin-top:10px;background:var(--warn-bg);">
+                        <div
+                            style="font-family:'Cinzel',serif;font-size:8.5px;font-weight:700;color:var(--red);text-transform:uppercase;margin-bottom:4px;">
+                            ⚠ Внимание!</div>
+                        <div style="font-size:9.5px;color:var(--ink-light);line-height:1.5;">Если ПЗ ниже <strong>Порога
+                                Ранения</strong>:<br><span style="color:var(--red);font-weight:700;">Реакция, Ловкость,
+                                Интеллект и Воля СНИЖАЮТСЯ ВДВОЕ</span></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="section-header">Таблица Критических Ранений</div>
+                    <table>
+                        <tr>
+                            <th>Больше защиты на…</th>
+                            <th>Уровень</th>
+                            <th>Доп. урон</th>
+                        </tr>
+                        <tr>
+                            <td>7</td>
+                            <td style="color:var(--gold);">Лёгкий</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <td>10</td>
+                            <td style="color:var(--gold);">Средний</td>
+                            <td>5</td>
+                        </tr>
+                        <tr>
+                            <td>13</td>
+                            <td style="color:var(--red);">Тяжёлый</td>
+                            <td>8</td>
+                        </tr>
+                        <tr>
+                            <td>15</td>
+                            <td style="color:var(--red);font-weight:700;">Смертельный</td>
+                            <td>10</td>
+                        </tr>
+                    </table>
+                    <div class="section-header" style="margin-top:12px;">Лечащее Прикосновение</div>
+                    <table>
+                        <tr>
+                            <th>Ранение</th>
+                            <th>Раундов</th>
+                            <th>СЛ</th>
+                        </tr>
+                        <tr>
+                            <td style="color:var(--gold);">Лёгкое</td>
+                            <td>2</td>
+                            <td>12</td>
+                        </tr>
+                        <tr>
+                            <td style="color:var(--gold);">Среднее</td>
+                            <td>4</td>
+                            <td>14</td>
+                        </tr>
+                        <tr>
+                            <td style="color:var(--red);">Тяжёлое</td>
+                            <td>6</td>
+                            <td>16</td>
+                        </tr>
+                        <tr>
+                            <td style="color:var(--red);font-weight:700;">Смертельное</td>
+                            <td>8</td>
+                            <td>18</td>
+                        </tr>
+                    </table>
+                    <div class="section-header" style="margin-top:12px;">Лечение Магией</div>
+                    <table>
+                        <tr>
+                            <th>Ранение</th>
+                            <th>Кол-во</th>
+                            <th>СЛ</th>
+                        </tr>
+                        <tr>
+                            <td style="color:var(--gold);">Лёгкое</td>
+                            <td>4</td>
+                            <td>14</td>
+                        </tr>
+                        <tr>
+                            <td style="color:var(--gold);">Среднее</td>
+                            <td>6</td>
+                            <td>16</td>
+                        </tr>
+                        <tr>
+                            <td style="color:var(--red);">Тяжёлое</td>
+                            <td>8</td>
+                            <td>18</td>
+                        </tr>
+                        <tr>
+                            <td style="color:var(--red);font-weight:700;">Смертельное</td>
+                            <td>10</td>
+                            <td>20</td>
+                        </tr>
+                    </table>
+                    <div
+                        style="border:1px solid var(--gold);padding:6px;margin-top:8px;font-size:9px;color:var(--ink-light);line-height:1.5;background:var(--stat-bg);">
+                        <strong style="color:var(--gold);">Полное исцеление Критического Ранения</strong> — только
+                        Магией<br>
+                        <span style="color:var(--red);">СЛ Исцеления = СЛ Лечения + Доп. Урон</span>
+                    </div>
+                    <div class="section-header" style="margin-top:12px;">Выносливость</div>
+                    <div style="border:1px solid var(--line);padding:6px;background:var(--stat-bg);">
+                        <div class="field-row"><span class="field-label">Текущая:</span><input class="field-value"
+                                type="text"></div>
+                        <div class="field-row"><span class="field-label">Максимальная:</span><input class="field-value"
+                                type="text"></div>
+                        <div class="field-row"><span class="field-label">Отдых:</span><input class="field-value"
+                                type="text"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-watermark">Ведьмак TRPG · Стр. IV</div>
+        </div>
+
+        <div class="sheet-page">
+            <div class="page-title">Магия, Ритуалы и Порча</div>
+            <div class="grid-2" style="gap:14px;">
+                <div>
+                    <div class="section-header">Заклинания / Инвокации / Знаки <button class="add-btn"
+                            onclick="addSpell()">+ Добавить</button></div>
+                    <div id="spells-list"></div>
+                    <div class="section-header" style="margin-top:10px;">Энергия</div>
+                    <div style="border:1px solid var(--line);padding:6px;background:var(--stat-bg);">
+                        <div class="grid-2" style="gap:8px;margin-bottom:6px;">
+                            <div class="field-row"><span class="field-label">Осталось:</span><input class="field-value"
+                                    type="text" style="font-family:'Cinzel',serif;font-weight:700;font-size:14px;">
+                            </div>
+                            <div class="field-row"><span class="field-label">Потрачено:</span><input class="field-value"
+                                    type="text" style="font-family:'Cinzel',serif;font-weight:700;font-size:14px;">
+                            </div>
+                        </div>
+                        <div id="energy-pips" style="display:flex;flex-wrap:wrap;gap:3px;"></div>
+                    </div>
+                    <div class="field-row" style="margin-top:6px;"><span class="field-label">Фокусирующий
+                            предмет:</span><input class="field-value" type="text"></div>
+                    <div class="field-row"><span class="field-label">Мод. Энергии:</span><input class="field-value"
+                            type="text"></div>
+                    <div class="section-header" style="margin-top:8px;">Примечания по Магии</div>
+                    <textarea class="notes-area" rows="4"></textarea>
+                    <div class="section-header" style="margin-top:10px;">Порча <button class="add-btn"
+                            onclick="addCurse()">+ Добавить</button></div>
+                    <div id="curses-list"></div>
+                </div>
+                <div>
+                    <div class="section-header">Обучение Магии</div>
+                    <table>
+                        <tr>
+                            <th>Параметр</th>
+                            <th colspan="4">Показатель</th>
+                        </tr>
+                        <tr>
+                            <td
+                                style="font-family:'Cinzel',serif;font-size:8px;font-weight:700;color:var(--ink-light);">
+                                Магический уровень</td>
+                            <td colspan="4">
+                                <div style="display:flex;gap:4px;flex-wrap:wrap;">
+                                    <label
+                                        style="font-size:8px;cursor:pointer;display:flex;align-items:center;gap:3px;color:var(--ink-light);"><input
+                                            type="radio" name="maglvl"> Новичок</label>
+                                    <label
+                                        style="font-size:8px;cursor:pointer;display:flex;align-items:center;gap:3px;color:var(--ink-light);"><input
+                                            type="radio" name="maglvl"> Низкий</label>
+                                    <label
+                                        style="font-size:8px;cursor:pointer;display:flex;align-items:center;gap:3px;color:var(--ink-light);"><input
+                                            type="radio" name="maglvl"> Подмастерье</label>
+                                    <label
+                                        style="font-size:8px;cursor:pointer;display:flex;align-items:center;gap:3px;color:var(--ink-light);"><input
+                                            type="radio" name="maglvl"> Средний</label>
+                                    <label
+                                        style="font-size:8px;cursor:pointer;display:flex;align-items:center;gap:3px;color:var(--ink-light);"><input
+                                            type="radio" name="maglvl"> Мастер</label>
+                                    <label
+                                        style="font-size:8px;cursor:pointer;display:flex;align-items:center;gap:3px;color:var(--ink-light);"><input
+                                            type="radio" name="maglvl"> Высокий</label>
+                                    <label
+                                        style="font-size:8px;cursor:pointer;display:flex;align-items:center;gap:3px;color:var(--ink-light);"><input
+                                            type="radio" name="maglvl"> Верховный</label>
+                                    <label
+                                        style="font-size:8px;cursor:pointer;display:flex;align-items:center;gap:3px;color:var(--ink-light);"><input
+                                            type="radio" name="maglvl"> Жрец</label>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <table>
+                        <tr>
+                            <th>Треб. О.У.</th>
+                            <th>10</th>
+                            <th>20</th>
+                            <th>30</th>
+                            <th>40</th>
+                        </tr>
+                        <tr>
+                            <td style="font-size:8px;color:var(--ink-light);">Время изучения</td>
+                            <td>4 дня</td>
+                            <td>1 нед.</td>
+                            <td>3 нед.</td>
+                            <td>5 нед.</td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:8px;color:var(--ink-light);">СЛ изучения</td>
+                            <td>14</td>
+                            <td>18</td>
+                            <td>22</td>
+                            <td>24</td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:8px;color:var(--ink-light);">Число проверок</td>
+                            <td>2</td>
+                            <td>4</td>
+                            <td>6</td>
+                            <td>8</td>
+                        </tr>
+                    </table>
+                    <div class="section-header" style="margin-top:12px;">Ритуалы</div>
+                    <div id="rituals-list"></div>
+                    <button class="add-btn" onclick="addRitual()" style="margin-top:4px;">+ Ритуал</button>
+                    <div class="section-header" style="margin-top:10px;">Записки и Заметки</div>
+                    <textarea class="notes-area" rows="8"></textarea>
+                </div>
+            </div>
+            <div class="page-watermark">Ведьмак TRPG · Стр. V</div>
+        </div>
+
+        <div class="sheet-page">
+            <div class="page-title">Ремесленные Чертежи</div>
+            <div class="section-header">Схемы и Рецепты <button class="add-btn" onclick="addCraftRow()">+
+                    Добавить</button></div>
+            <div class="craft-hdr">
+                <div>Название</div>
+                <div>СЛ</div>
+                <div>Время</div>
+                <div>Компоненты</div>
+                <div>Доплата</div>
+                <div>Цена</div>
+                <div></div>
+            </div>
+            <div id="craft-list"></div>
+            <div class="page-watermark">Ведьмак TRPG · Стр. VI</div>
+        </div>
+
+    </div>
+
+    <div class="menu-toggle" id="menuToggle">
+        <div class="hamburger">
+            <span></span><span></span><span></span>
+        </div>
+    </div>
+
+    <nav class="slide-menu" id="slideMenu">
+        <div class="menu-header">
+            <span class="menu-title">Навигация</span>
+            <button class="close-menu" id="closeMenu">&times;</button>
+        </div>
+        <ul class="menu-list">
+            <li><a href="../index/index.html">Главная</a></li>
+            <li class="has-submenu">
+                <div class="menu-item">
+                    <span>Основы НРИ</span>
+                    <span class="submenu-arrow">▼</span>
+                </div>
+                <ul class="submenu">
+                    <li><a href='../Basics of NRI/What is NRI.HTML'>Что такое НРИ?</a></li>
+                    <li><a href="../Basics of NRI/Disclaimer.html">Дисклеймер</a></li>
+                </ul>
+            </li>
+            <li class="has-submenu">
+                <div class="menu-item">
+                    <span>Правила</span>
+                    <span class="submenu-arrow">▼</span>
+                </div>
+                <ul class="submenu">
+                    <li><a href='../Rules/Rolls.html'>Броски</a></li>
+                    <li><a href='../Rules/Fight.html'>Бой и ранения</a></li>
+                </ul>
+            </li>
+            <li class="has-submenu">
+                <div class="menu-item">
+                    <span>Создание персонажа</span>
+                    <span class="submenu-arrow">▼</span>
+                </div>
+                <ul class="submenu">
+                    <li><a href="../races/races.html">Расы</a></li>
+                    <li><a href="../Professions/Professions.html">Професии</a></li>
+                </ul>
+            </li>
+            <li><a href="#">Лист Персонажа</a></li>
+
+        </ul>
+    </nav>
+
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+</body>
+
+</html>
